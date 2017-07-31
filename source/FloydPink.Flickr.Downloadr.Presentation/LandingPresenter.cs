@@ -31,7 +31,7 @@ namespace FloydPink.Flickr.Downloadr.Presentation
       };
     }
 
-    public async Task Initialize()
+    public async Task Initialize(int curAlbumPageNumber)
     {
       try
       {
@@ -42,7 +42,7 @@ namespace FloydPink.Flickr.Downloadr.Presentation
 
         _view.ShowSpinner(false);
 
-        await GetAndSetPhotosets(1);
+        await GetAndSetPhotosets(curAlbumPageNumber);
       } catch (Exception ex)
       {
         _view.HandleException(ex);
