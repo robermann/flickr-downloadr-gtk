@@ -110,7 +110,8 @@ namespace FloydPink.Flickr.Downloadr.Logic
     private async Task LoadCacheForMatchingAlbums(string methodName, User user, Preferences preferences, Dictionary<string, object> photosetsResponseDictionary)
     {
       preferences.Visited = false;
-      String albumName = preferences.AlbumSearchName.ToLower();
+      String albumName = preferences.AlbumSearchName.ToLower().Trim();
+      bool all = albumName.Equals("*");
 
       cachedFilteredPhotosets = new List<Dictionary<string, object>>();
       int maxNum = int.Parse(photosetsResponseDictionary.GetSubValue("photosets", "total").ToString());
@@ -138,7 +139,7 @@ namespace FloydPink.Flickr.Downloadr.Logic
       while (browser.MoveNext())
       {
         Dictionary<string, object> cur = browser.Current;
-        if (cur.GetSubValue("title").ToString().ToLower().Contains(albumName))
+        if (all || cur.GetSubValue("title").ToString().ToLower().Contains(albumName))
         {
           cachedFilteredPhotosets.Add(cur);
         }
