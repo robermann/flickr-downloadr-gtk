@@ -63,7 +63,7 @@ namespace FloydPink.Flickr.Downloadr.UI.Windows
     private void AddTooltips()
     {
       Log.Debug("AddTooltips");
-      labelFilename.TooltipText = radioPhotoId.TooltipText = radioPhotoTitle.TooltipText = radioFlickrOrder.TooltipText =
+      labelFilename.TooltipText = radioPhotoId.TooltipText = radioPhotoTitle.TooltipText = radioOriginalOrder.TooltipText =
         "Choose to name the downloaded photos with its internal photo id (a unique number) or its order as defined inside the album or its title (Untitled images will be assigned random unique names)";
       labelDownloadLocation.TooltipText = entryDownloadLocation.TooltipText = buttonDownloadLocation.TooltipText =
         "Set the location to save the downloaded photos and metadata";
@@ -110,9 +110,9 @@ namespace FloydPink.Flickr.Downloadr.UI.Windows
     {
       Log.Debug("setFieldsFromModel");
       // Filename
-      radioPhotoId.Active = !preferences.TitleAsFilename && !preferences.FlickrOrder;
-      radioPhotoTitle.Active = preferences.TitleAsFilename;
-      radioFlickrOrder.Active = preferences.FlickrOrder && !preferences.TitleAsFilename;
+      radioPhotoId.Active = preferences.FileNameMode == FileNameMode.PhotoId;
+      radioPhotoTitle.Active = preferences.FileNameMode == FileNameMode.Title;
+      radioOriginalOrder.Active = preferences.FileNameMode == FileNameMode.OriginalOrder;
 
       entryAlbumSearchName.Text = preferences.AlbumSearchName;
 
@@ -183,8 +183,11 @@ namespace FloydPink.Flickr.Downloadr.UI.Windows
       }
       return new Preferences
       {
-        TitleAsFilename = radioPhotoTitle.Active,
-        FlickrOrder = radioFlickrOrder.Active,
+
+        FileNameMode =
+        radioPhotoTitle.Active ? FileNameMode.Title :
+        radioOriginalOrder.Active ? FileNameMode.OriginalOrder : FileNameMode.PhotoId,
+
         DownloadLocation = entryDownloadLocation.Text,
         AlbumSearchName = entryAlbumSearchName.Text,
         DownloadSize =

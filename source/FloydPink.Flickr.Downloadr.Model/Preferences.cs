@@ -5,12 +5,17 @@ using FloydPink.Flickr.Downloadr.Model.Enums;
 
 namespace FloydPink.Flickr.Downloadr.Model
 {
+  public enum FileNameMode {
+    Title,
+    OriginalOrder,
+    PhotoId
+  }
+
   public class Preferences
   {
-    public bool TitleAsFilename { get; set; }
-    public bool FlickrOrder { get; set; }
     public string DownloadLocation { get; set; }
     public string AlbumSearchName { get; set; }
+    public FileNameMode FileNameMode { get; set; }
     public PhotoDownloadSize DownloadSize { get; set; }
     public int PhotosPerPage { get; set; }
     public string SafetyLevel { get; set; }
@@ -26,8 +31,7 @@ namespace FloydPink.Flickr.Downloadr.Model
     {
       return new Preferences
       {
-        TitleAsFilename = false,
-        FlickrOrder = false,
+        FileNameMode = FileNameMode.PhotoId,
         PhotosPerPage = 25,
         AlbumSearchName = "",
         DownloadLocation = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures),
